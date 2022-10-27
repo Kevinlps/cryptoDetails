@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import CoinCard from '../../components/CoinCard'
 import Coin from '../../models/Coin'
 import CoinService from '../../services/CoinService'
 import { Container, FilterInput, Loading } from './styles'
 import loading from '../../assets/img/loading.gif'
+import {UserContext} from '../../context/UserContext'
 //const coinService = new CoinService()
 
 const Home = () => {
@@ -12,9 +13,11 @@ const Home = () => {
   const [coinsLoaded, setCoinsLoaded] = useState(false)
   const [coinService] = useState(new CoinService())
 
+  const {vsCurrency} = useContext(UserContext)
+
   const loadCoins = async () => {
     setCoinsLoaded(false)
-    const loadedCoins = await coinService.loadCoins()
+    const loadedCoins = await coinService.loadCoins(vsCurrency)
     setCoins(loadedCoins)
     setCoinsLoaded(true)
   }
